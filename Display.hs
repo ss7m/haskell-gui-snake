@@ -17,7 +17,7 @@ display snake = do
 
 idle :: IORef Snake -> IORef Direction -> IdleCallback
 idle snake dir = do
-  delay (90000::Integer)
+  delay (100000::Integer)
   d <- get dir
   snake $~! (`move` d)
   s <- get snake
