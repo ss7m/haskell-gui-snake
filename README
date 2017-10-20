@@ -1,0 +1,5 @@
+Because the world really needs another implementation of Snake.
+
+Built with Haskell and OpenGL
+
+run "make" to compile

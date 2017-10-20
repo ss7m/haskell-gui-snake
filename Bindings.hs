@@ -3,7 +3,8 @@ module Bindings (keyboardMouse) where
 import Graphics.UI.GLUT
 import Control.Concurrent.Thread.Delay
 import Data.IORef
-import SnakeDef
+import Snake
+import Direction
 
 set :: Snake -> Direction -> Direction
 set (Snake _ []) dir = dir

@@ -1,5 +1,5 @@
 all:
-	ghc --make main.hs
+	ghc -o Snake --make main.hs
 
 clean:
 	rm *.o *.hi *.exe
