@@ -1,4 +1,4 @@
-module Snake (Snake(..), valid, move, eating, eat, toPoints) where
+module Snake (Snake(..), valid, move, eating, intersecting, eat, toPoints, score) where
 
 import Direction
 
@@ -30,5 +30,11 @@ toPoints :: Snake -> [Point]
 toPoints (Snake loc []) = [loc]
 toPoints (Snake loc (d:ds)) = loc : toPoints (Snake (push d loc) ds)
 
+intersecting :: Snake -> Point -> Bool
+intersecting snake = \x -> elem x $ toPoints snake
+
 eating :: Snake -> Point -> Bool
-eating snake = \x -> elem x $ toPoints snake
+eating (Snake loc _) = (==) loc
+
+score :: Snake -> Int
+score (Snake _ dirs) = 1 + length dirs

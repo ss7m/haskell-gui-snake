@@ -20,7 +20,7 @@ scalePoint :: Point -> GLpoint
 scalePoint (x,y) = (gWidth*(fromIntegral x), gWidth*(fromIntegral y))
 
 toGraphics :: Snake -> [[GLpoint]]
-toGraphics snake = map toQuad (map scalePoint (toPoints snake))
+toGraphics snake = map toQuad $ map scalePoint $ toPoints snake
 
 unpack :: [[a]] -> [a]
 unpack [] = []
@@ -46,7 +46,7 @@ generateFood snake = do
   rx <- get randIdx
   ry <- get randIdx
   let point = (rx,ry) :: Point
-  if snake `eating` point then generateFood snake else return point
+  if snake `intersecting` point then generateFood snake else return point
 
 idle :: IORef Snake -> IORef Point -> IORef Direction -> IdleCallback
 idle snake food dir = do
@@ -62,6 +62,6 @@ idle snake food dir = do
     else snake $~! (`move` d)
   if not $ valid s
     then do
-      putStrLn "snek ded"
+      putStrLn $ (++) "snek ded\nscore: " $ show $ score s
       exit
     else postRedisplay Nothing

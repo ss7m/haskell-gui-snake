@@ -1,7 +1,6 @@
 module Bindings (keyboardMouse) where
 
 import Graphics.UI.GLUT
-import Control.Concurrent.Thread.Delay
 import Data.IORef
 import Snake
 import Direction
