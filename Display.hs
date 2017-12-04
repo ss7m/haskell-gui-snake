@@ -22,9 +22,7 @@ scalePoint (x,y) = (gWidth*(fromIntegral x), gWidth*(fromIntegral y))
 toGraphics :: Snake -> [[GLpoint]]
 toGraphics snake = map toQuad $ map scalePoint $ toPoints snake
 
-unpack :: [[a]] -> [a]
-unpack [] = []
-unpack (x:xs) = x ++ unpack xs
+unpack = concat --because i'm lazy
 
 display :: IORef Snake -> IORef Point -> DisplayCallback
 display snake food = do

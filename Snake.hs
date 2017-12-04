@@ -1,6 +1,7 @@
 module Snake (Snake(..), valid, move, eating, intersecting, eat, toPoints, score) where
 
 import Direction
+import Data.List
 
 data Snake = Snake Point [Direction]
 
@@ -18,17 +19,11 @@ inside :: Point -> Bool
 inside (x,y) = abs x < 20 && abs y < 20
 
 valid :: Snake -> Bool
-valid (Snake loc dirs) = inside loc && validRec [loc] dirs
-
-validRec ::[Point] -> [Direction] -> Bool
-validRec _ [] = True
-validRec locs@(l:_) (d:ds) = noOverlap && validRec (newLoc:locs) ds
-  where newLoc = push d l
-        noOverlap = not $ newLoc `elem` locs
+valid snake = points == nub points && all inside points
+  where points = toPoints snake
 
 toPoints :: Snake -> [Point]
-toPoints (Snake loc []) = [loc]
-toPoints (Snake loc (d:ds)) = loc : toPoints (Snake (push d loc) ds)
+toPoints (Snake loc ds) = scanl (flip push) loc ds
 
 intersecting :: Snake -> Point -> Bool
 intersecting snake = \x -> elem x $ toPoints snake
