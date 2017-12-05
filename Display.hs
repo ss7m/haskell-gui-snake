@@ -36,5 +36,3 @@ display snake food = do
     renderPrimitive Quads $ 
       mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) ((toQuad.scalePoint) f)
   swapBuffers
-
-

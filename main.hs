@@ -18,7 +18,8 @@ main = do
   dir <- newIORef DOWN
   f <- get $ generateFood newSnake
   food <- newIORef f
+  eatCounter <- newIORef (0 :: Int)
   keyboardMouseCallback $= Just (keyboardMouse snake dir)
-  idleCallback $= Just (idle snake food dir)
+  idleCallback $= Just (idle snake food eatCounter dir)
   displayCallback $= display snake food
   mainLoop

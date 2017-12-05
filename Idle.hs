@@ -18,20 +18,23 @@ generateFood snake = do
   let point = (rx,ry) :: Point
   if snake `intersecting` point then generateFood snake else return point
 
-idle :: IORef Snake -> IORef Point -> IORef Direction -> IdleCallback
-idle snake food dir = do
+idle :: IORef Snake -> IORef Point -> IORef Int -> IORef Direction -> IdleCallback
+idle snake food eatCounter dir = do
   delay (100000::Integer)
   d <- get dir
   f <- get food
   s <- get snake
-  if s `eating` f
-    then do
-      snake $~! (`eat` d)
-      f <- get $ generateFood s
-      food $= f
+  if s `eating` f then do
+    eatCounter $~! (+5)
+    f <- get $ generateFood s
+    food $= f
+    else return ()
+  e <- get eatCounter
+  if e > 0 then do
+    snake $~! (`eat` d)
+    eatCounter $~! ((+) (-1))
     else snake $~! (`move` d)
-  if not $ valid xSize ySize s
-    then do
-      putStrLn $ (++) "snek ded\nscore: " $ show $ score s
-      exit
+  if not $ valid xSize ySize s then do
+    putStrLn $ (++) "snek ded\nscore: " $ show $ score s
+    exit
     else postRedisplay Nothing
