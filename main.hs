@@ -4,6 +4,7 @@ import Display
 import Bindings
 import Snake
 import Direction
+import Idle
 
 newSnake = Snake (0,0) [] :: Snake
 
@@ -12,6 +13,7 @@ main = do
   (_progName, _args) <- getArgsAndInitialize
   initialDisplayMode $= [DoubleBuffered]
   _window <- createWindow "Snake!"
+  fullScreen
   snake <- newIORef newSnake
   dir <- newIORef DOWN
   f <- get $ generateFood newSnake

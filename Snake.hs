@@ -15,11 +15,11 @@ move (Snake loc xs) dir = Snake (push dir loc) (moveTail dir xs)
 eat :: Snake -> Direction -> Snake
 eat (Snake loc xs) dir = Snake (push dir loc) ((opp dir):xs)
 
-inside :: Point -> Bool
-inside (x,y) = abs x < 20 && abs y < 20
+inside :: Int -> Int -> Point -> Bool
+inside xMax yMax (x,y) = abs x < xMax && abs y < yMax
 
-valid :: Snake -> Bool
-valid snake = points == nub points && all inside points
+valid :: Int -> Int -> Snake -> Bool
+valid xMax yMax snake = points == nub points && all (inside xMax yMax) points
   where points = toPoints snake
 
 toPoints :: Snake -> [Point]
