@@ -26,9 +26,8 @@ idle snake food eatCounter dir = do
   s <- get snake
   if s `eating` f then do
     eatCounter $~! (+5)
-    f <- get $ generateFood s
-    food $= f
-    else return ()
+    generateFood s >>= ($=) food
+  else return ()
   e <- get eatCounter
   if e > 0 then do
     snake $~! (`eat` d)
@@ -37,4 +36,4 @@ idle snake food eatCounter dir = do
   if not $ valid xSize ySize s then do
     putStrLn $ (++) "snek ded\nscore: " $ show $ score s
     exit
-    else postRedisplay Nothing
+  else postRedisplay Nothing

@@ -16,8 +16,7 @@ main = do
   fullScreen
   snake <- newIORef newSnake
   dir <- newIORef DOWN
-  f <- get $ generateFood newSnake
-  food <- newIORef f
+  food <- generateFood newSnake >>= newIORef
   eatCounter <- newIORef (0 :: Int)
   keyboardMouseCallback $= Just (keyboardMouse snake dir)
   idleCallback $= Just (idle snake food eatCounter dir)
