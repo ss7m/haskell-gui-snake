@@ -20,10 +20,8 @@ toQuad (x,y) = [(x-xOffset,y-yOffset),(x+xOffset,y-yOffset),(x+xOffset,y+yOffset
 scalePoint :: Point -> GLpoint
 scalePoint (x,y) = (gWidth*(fromIntegral x), gHeight*(fromIntegral y))
 
-toGraphics :: Snake -> [[GLpoint]]
-toGraphics snake = map toQuad $ map scalePoint $ toPoints snake
-
-unpack = concat --because i'm lazy
+toGraphics :: [Point] -> [GLpoint]
+toGraphics points = concat $ map toQuad $ map scalePoint $ points
 
 display :: IORef Snake -> IORef Point -> DisplayCallback
 display snake food = do
@@ -32,7 +30,7 @@ display snake food = do
   f <- get food
   preservingMatrix $ do
     renderPrimitive Quads $
-      mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) ((unpack.toGraphics) s)
+      mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) ((toGraphics.toPoints) s)
     renderPrimitive Quads $ 
-      mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) ((toQuad.scalePoint) f)
+      mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) (toGraphics [f])
   swapBuffers
