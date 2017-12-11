@@ -20,13 +20,13 @@ generateFood snake = do
 
 idle :: IORef Snake -> IORef Point -> IORef Int -> IORef Direction -> IdleCallback
 idle snake food eatCounter dir = do
-  delay (100000::Integer)
+  delay (90000::Integer)
   d <- get dir
   f <- get food
   s <- get snake
   if s `eating` f then do
     eatCounter $~! (+5)
-    generateFood s >>= ($=) food
+    generateFood s >>= (food $=)
   else return ()
   e <- get eatCounter
   if e > 0 then do
