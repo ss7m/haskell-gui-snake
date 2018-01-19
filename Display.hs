@@ -30,7 +30,10 @@ display snake food = do
   f <- get food
   preservingMatrix $ do
     renderPrimitive Quads $
-      mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) ((toGraphics.toPoints) s)
+      forM_ ((toGraphics.toPoints) s) $ \(x,y) -> do 
+        color $ Color3 ((x+1)/2) ((y+1)/2) 0.5
+        vertex $ Vertex3 x y 0
+    color $ Color3 (1 :: GLfloat) 1 1
     renderPrimitive Quads $ 
       mapM_ (\(x,y) -> vertex $ Vertex3 x y 0) (toGraphics [f])
   swapBuffers
