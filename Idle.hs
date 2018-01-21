@@ -11,6 +11,7 @@ import Direction
 xRange = (-xSize + 1, xSize - 1) :: (Int, Int)
 yRange = (-ySize + 1, ySize - 1) :: (Int, Int)
 
+-- generates a new location for food
 generateFood :: Snake -> IO Point
 generateFood snake = do
   rx <- get $ randomRIO xRange
@@ -18,6 +19,7 @@ generateFood snake = do
   let point = (rx,ry) :: Point
   if snake `intersecting` point then generateFood snake else return point
 
+-- idle call back
 idle :: IORef Snake -> IORef Point -> IORef Int -> IORef Direction -> IdleCallback
 idle snake food eatCounter dir = do
   delay (90000::Integer)

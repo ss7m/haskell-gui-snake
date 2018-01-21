@@ -5,25 +5,28 @@ import Data.IORef
 import Snake
 import Direction
 
+-- attempts to set the direction of the snake
 set :: Snake -> Direction -> Direction
 set (Snake _ []) dir = dir
 set (Snake _ (d:_)) dir
   | d == dir  = opp dir
   | otherwise = dir
 
-charToDir :: Key -> Maybe Direction
-charToDir (Char 'w')            = Just UP
-charToDir (Char 'a')            = Just LEFT
-charToDir (Char 's')            = Just DOWN
-charToDir (Char 'd')            = Just RIGHT
-charToDir (SpecialKey KeyUp)    = Just UP
-charToDir (SpecialKey KeyLeft)  = Just LEFT
-charToDir (SpecialKey KeyRight) = Just RIGHT
-charToDir (SpecialKey KeyDown)  = Just DOWN
-charToDir _                     = Nothing
+-- if wasd or arrow key, returns corresponding direction
+keyToDir :: Key -> Maybe Direction
+keyToDir (Char 'w')            = Just UP
+keyToDir (Char 'a')            = Just LEFT
+keyToDir (Char 's')            = Just DOWN
+keyToDir (Char 'd')            = Just RIGHT
+keyToDir (SpecialKey KeyUp)    = Just UP
+keyToDir (SpecialKey KeyLeft)  = Just LEFT
+keyToDir (SpecialKey KeyRight) = Just RIGHT
+keyToDir (SpecialKey KeyDown)  = Just DOWN
+keyToDir _                     = Nothing
 
+-- reacts to keyboard and mouse presses
 keyboardMouse :: IORef Snake -> IORef Direction -> KeyboardMouseCallback
-keyboardMouse snake dir key Down _ _ = case charToDir key of
+keyboardMouse snake dir key Down _ _ = case keyToDir key of
   (Just d)  -> do
     s <- get snake
     dir $= set s d
