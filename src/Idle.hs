@@ -1,7 +1,7 @@
 module Idle (idle, generateFood) where
 
 import Graphics.UI.GLUT
-import Control.Concurrent.Thread.Delay
+import Control.Concurrent
 import Data.IORef
 import System.Random
 import Snake
@@ -22,7 +22,7 @@ generateFood snake = do
 -- idle call back
 idle :: IORef Snake -> IORef Point -> IORef Int -> IORef Direction -> IdleCallback
 idle snake food eatCounter dir = do
-  delay (90000::Integer)
+  threadDelay 90000
   d <- get dir
   f <- get food
   s <- get snake

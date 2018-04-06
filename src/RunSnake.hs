@@ -1,3 +1,5 @@
+module RunSnake (runSnake) where
+
 import Graphics.UI.GLUT
 import Data.IORef
 import Display
@@ -8,8 +10,8 @@ import Idle
 
 newSnake = Snake (0,0) [] :: Snake
 
-main :: IO ()
-main = do
+runSnake :: IO ()
+runSnake = do
   (_progName, _args) <- getArgsAndInitialize
   initialDisplayMode $= [DoubleBuffered]
   _window <- createWindow "Snake!"
