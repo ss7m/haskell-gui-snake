@@ -1,15 +1,17 @@
 module Direction (Direction(..), Point, push, opp) where
 
+import Data.Bifunctor
+
 data Direction = UP | DOWN | LEFT | RIGHT deriving(Eq)
 
 type Point = (Int, Int)
 
 -- pushes the points in a direction
 push :: Direction -> Point -> Point
-push UP    (x,y) = (x,y+1)
-push DOWN  (x,y) = (x,y-1)
-push LEFT  (x,y) = (x-1,y)
-push RIGHT (x,y) = (x+1,y)
+push UP    = second succ
+push DOWN  = second pred
+push LEFT  = first pred
+push RIGHT = first succ
 
 -- returns the opposite of a direction
 opp :: Direction -> Direction

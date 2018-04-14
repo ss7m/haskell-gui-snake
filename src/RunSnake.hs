@@ -8,7 +8,8 @@ import Snake
 import Direction
 import Idle
 
-newSnake = Snake (0,0) [] :: Snake
+newSnake :: Snake
+newSnake = Snake (0,0) []
 
 runSnake :: IO ()
 runSnake = do
