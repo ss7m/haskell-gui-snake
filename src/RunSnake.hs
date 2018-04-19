@@ -4,12 +4,12 @@ import Graphics.UI.GLUT
 import Data.IORef
 import Display
 import Bindings
-import Snake
+import Snake2
 import Direction
 import Idle
 
 newSnake :: Snake
-newSnake = Snake (0,0) []
+newSnake = Snake [(0,0)]
 
 runSnake :: IO ()
 runSnake = do

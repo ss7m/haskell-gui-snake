@@ -3,7 +3,7 @@ module Display (display) where
 import Graphics.UI.GLUT
 import Data.IORef
 import Control.Monad
-import Snake
+import Snake2
 import Direction
 import Screen
 

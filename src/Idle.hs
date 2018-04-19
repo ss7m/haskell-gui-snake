@@ -4,7 +4,7 @@ import Graphics.UI.GLUT
 import Control.Concurrent
 import Data.IORef
 import System.Random
-import Snake
+import Snake2
 import Screen
 import Direction
 

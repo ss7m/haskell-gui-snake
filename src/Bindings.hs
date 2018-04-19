@@ -2,14 +2,14 @@ module Bindings (keyboardMouse) where
 
 import Graphics.UI.GLUT
 import Data.IORef
-import Snake
+import Snake2
 import Direction
 
 -- attempts to set the direction of the snake
 set :: Snake -> Direction -> Direction
-set (Snake _ []) dir = dir
-set (Snake _ (d:_)) dir
-  | d == dir  = opp dir
+set (Snake [_]) dir = dir
+set (Snake (x:y:_)) dir
+  | push dir x == y = opp dir
   | otherwise = dir
 
 -- if wasd or arrow key, returns corresponding direction
