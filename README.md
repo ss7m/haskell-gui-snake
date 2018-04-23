@@ -1,1 +1,1 @@
-# snake-hs
+# haskell-gui-snake2

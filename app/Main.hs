@@ -1,6 +1,6 @@
 module Main where
 
-import RunSnake
+import Game
 
 main :: IO ()
-main = runSnake
+main = game

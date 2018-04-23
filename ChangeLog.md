@@ -1,3 +1,3 @@
-# Changelog for snake-hs
+# Changelog for haskell-gui-snake2
 
 ## Unreleased changes
