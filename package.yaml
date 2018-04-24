@@ -28,7 +28,7 @@ library:
   source-dirs: src
 
 executables:
-  exe:
+  snake:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
