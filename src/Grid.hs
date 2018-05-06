@@ -1,4 +1,4 @@
-module Grid (gridWidth, gridHeight, screenWidth, screenHeight, blockWidth, blockHeight) where
+module Grid (gridWidth, gridHeight, screenWidth, screenHeight, blockWidth, blockHeight, divInts) where
 
 import Graphics.Gloss.Interface.Environment
 

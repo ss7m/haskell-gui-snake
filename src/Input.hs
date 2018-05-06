@@ -9,8 +9,8 @@ import State
 -- Handle input
 handleInput :: Event -> State -> IO State
 handleInput (EventKey (SpecialKey KeyEsc) Down _ _) = const exitSuccess
-handleInput (EventKey k Down _ _) = return . setDirection (keyToDir k)
-handleInput _ = return . id
+handleInput (EventKey k Down _ _) = return . trySetDirection (keyToDir k)
+handleInput _ = return
 
 -- Return a direction given a key
 keyToDir :: Key -> Maybe Direction
@@ -21,9 +21,9 @@ keyToDir (Char 'd') = Just RIGHT
 keyToDir _ = Nothing
 
 -- Attempt to set the snake in a state to a direction
-setDirection :: Maybe Direction -> State -> State
-setDirection Nothing state = state
-setDirection (Just dir) state = 
+trySetDirection :: Maybe Direction -> State -> State
+trySetDirection Nothing state = state
+trySetDirection (Just dir) state = 
   case getSnake state of
-    [x] -> State (getSnake state) dir (getFood state) (getEatCounter state)
-    (x:y:_) -> if push dir x == y then state else State (getSnake state) dir (getFood state) (getEatCounter state)
+    [x] -> setDirection dir state
+    (x:y:_) -> if push dir x == y then state else setDirection dir state

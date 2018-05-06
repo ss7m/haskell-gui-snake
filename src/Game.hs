@@ -5,6 +5,7 @@ import Graphics.Gloss.Interface.Environment
 import Graphics.Gloss.Interface.IO.Game hiding (Point)
 import System.Exit
 import System.Random
+import Control.Monad
 
 import Snake
 import Direction
@@ -24,11 +25,11 @@ genFood Nothing  snake = do
   else
     return (x, -y)
 
--- Moves or eat the snake, depending on the current eatCounter
--- Changes eatCounter accordingly
+-- Moves or eat the snake, depending on the current counter
+-- Changes counter accordingly
 moveOrEat :: Snake -> Int -> Direction -> (Snake, Int)
 moveOrEat snake 0 dir = (move snake dir, 0)
-moveOrEat snake x dir = (eat snake dir, x - 1)
+moveOrEat snake counter dir = (eat snake dir, counter - 1)
 
 -- Perform one step of the game
 step :: Float -> State -> IO State
@@ -36,20 +37,24 @@ step _ state = do
   let snake = getSnake state
   let dir = getDirection state
   let food = getFood state
-  let eatCounter = getEatCounter state
+  let counter = getCounter state
 
   newFood <- genFood food snake
-  let (newSnake, newEatCounter) = moveOrEat snake eatCounter dir
+  let (newSnake, newCounter) = moveOrEat snake counter dir
 
   if not (valid gridWidth gridHeight snake) then do
-    putStrLn $ "Your score is " ++ show (length newSnake)
-    putStrLn "Thanks for playing!"
-    exitSuccess
+    exitProcedure $ State newSnake dir (Just newFood) newCounter
   else if snake `eating` newFood then
-    return $ State newSnake dir Nothing (newEatCounter + 5)
+    return $ State newSnake dir Nothing (newCounter + 5)
   else 
-    return $ State newSnake dir (Just newFood) newEatCounter
+    return $ State newSnake dir (Just newFood) newCounter
+
+exitProcedure :: State -> IO a
+exitProcedure state = do
+  putStrLn $ "Your score is " ++ show (length (getSnake state))
+  putStrLn "Thanks for playing!"
+  exitSuccess
 
 -- The Game!
 game :: IO ()
-game = playIO FullScreen black 12 initState drawState handleInput step
+game = playIO FullScreen black 13 initState drawState handleInput step
