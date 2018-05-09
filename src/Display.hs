@@ -18,10 +18,10 @@ makeRect w h sw sh (x, y) = col $ translate transW transH rect
     
     sqrt' = sqrt . fromIntegral
     r = divInts x gridWidth
-    g = divInts y gridHeight
-    b = 1 - (sqrt' (x^2 + y^2) / sqrt' (gridWidth^2 + gridHeight^2))
+    g = divInts (-y) gridHeight
+    b = sqrt' (x^2 + y^2) / sqrt' (gridWidth^2 + gridHeight^2)
 
-    col = color $ makeColor r g b 1
+    col = color $ makeColor (sqrt r) (sqrt g) (1 -sqrt b) 1
 
 -- cons a maybe to a list
 consMaybe :: Maybe a -> [a] -> [a]

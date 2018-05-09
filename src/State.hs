@@ -2,6 +2,7 @@ module State (State(..), initState, setSnake, setDirection, setFood, setCounter)
 
 import Snake
 import Direction
+import Grid
 
 data State = State {getSnake :: Snake, getDirection :: Direction, getFood :: Maybe Point, getCounter :: Int}
 

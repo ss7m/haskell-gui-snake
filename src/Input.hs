@@ -18,6 +18,10 @@ keyToDir (Char 'w') = Just UP
 keyToDir (Char 'a') = Just LEFT
 keyToDir (Char 's') = Just DOWN
 keyToDir (Char 'd') = Just RIGHT
+keyToDir (SpecialKey KeyUp)    = Just UP
+keyToDir (SpecialKey KeyLeft)  = Just LEFT
+keyToDir (SpecialKey KeyDown)  = Just DOWN
+keyToDir (SpecialKey KeyRight) = Just RIGHT
 keyToDir _ = Nothing
 
 -- Attempt to set the snake in a state to a direction
