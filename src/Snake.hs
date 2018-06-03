@@ -15,7 +15,7 @@ eat snake dir = push dir (head snake) : snake
 
 -- checks if a point is inside the screen
 inside :: Int -> Int -> Point -> Bool
-inside xMax yMax (x,y) = x >= 0 && y <= 0 && x < xMax && y > - yMax
+inside xMax yMax (x,y) = x >= 0 && y >= 0 && x < xMax && y < yMax
 
 noOverlap :: Snake -> Bool
 noOverlap (x:xs) = not $ elem x xs

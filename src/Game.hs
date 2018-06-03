@@ -20,37 +20,32 @@ genFood (Just x) snake = return $ x
 genFood Nothing  snake = do
   x <- randomRIO (0, gridWidth - 1)
   y <- randomRIO (0, gridHeight - 1)
-  if (x, -y) `elem` snake then
+  if (x, y) `elem` snake then
     genFood Nothing snake
   else
-    return (x, -y)
+    return (x, y)
 
--- Moves or eat the snake, depending on the current counter
--- Changes counter accordingly
-moveOrEat :: Snake -> Int -> Direction -> (Snake, Int)
-moveOrEat snake 0 dir = (move snake dir, 0)
-moveOrEat snake counter dir = (eat snake dir, counter - 1)
+doMove :: State -> State
+doMove (State s d f 0) = State (move s d) d f 0
+doMove (State s d f c) = State (eat  s d) d f $ c-1
+
+eatFood :: State -> IO State
+eatFood (State s d f c) = do
+  f' <- genFood f s
+  if s `eating` f' then
+    return $ State s d Nothing $ c+5
+  else
+    return $ State s d (Just f') c
 
 -- Perform one step of the game
 step :: Float -> State -> IO State
 step _ state = do
-  let snake = getSnake state
-  let dir = getDirection state
-  let food = getFood state
-  let counter = getCounter state
+  when (not $ valid gridWidth gridHeight $ getSnake state) (exitGame state)
+  eatFood $ doMove state 
 
-  newFood <- genFood food snake
-  let (newSnake, newCounter) = moveOrEat snake counter dir
-
-  if not (valid gridWidth gridHeight snake) then do
-    exitProcedure $ State newSnake dir (Just newFood) newCounter
-  else if snake `eating` newFood then
-    return $ State newSnake dir Nothing (newCounter + 5)
-  else 
-    return $ State newSnake dir (Just newFood) newCounter
-
-exitProcedure :: State -> IO a
-exitProcedure state = do
+--exit the game and print out the player's score
+exitGame :: State -> IO ()
+exitGame state = do
   putStrLn $ "Your score is " ++ show (length (getSnake state))
   putStrLn "Thanks for playing!"
   exitSuccess

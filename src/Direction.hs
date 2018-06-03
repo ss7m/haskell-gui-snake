@@ -8,8 +8,8 @@ type Point = (Int, Int)
 
 -- pushes the points in a direction
 push :: Direction -> Point -> Point
-push UP    = second succ
-push DOWN  = second pred
+push UP    = second pred
+push DOWN  = second succ
 push LEFT  = first pred
 push RIGHT = first succ
 
