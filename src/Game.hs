@@ -16,7 +16,7 @@ import Input
 
 -- Randomly generate a location for food if food is Nothing
 genFood :: State -> IO State
-genFood st@(State _ _ (Just _) _) = return $ st
+genFood st@(State _ _ (Just _) _) = return st
 genFood st@(State s _ Nothing  _) = do
   x <- randomRIO (0, gridWidth - 1)
   y <- randomRIO (0, gridHeight - 1)
@@ -39,9 +39,10 @@ eatFood (State s d (Just f) c)
 
 -- Perform one step of the game
 step :: Float -> State -> IO State
-step _ state = do
-  when (not $ valid gridWidth gridHeight $ getSnake state) (exitGame state)
-  genFood $ eatFood $ doMove state 
+step _ state = when (invalid state) (exitGame state) >> step' state
+  where
+    step' = genFood . eatFood . doMove
+    invalid = not . valid gridWidth gridHeight . getSnake
 
 --exit the game and print out the player's score
 exitGame :: State -> IO ()

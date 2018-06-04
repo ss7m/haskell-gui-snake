@@ -1,36 +1,34 @@
 module Display (drawState) where
 
 import Graphics.Gloss hiding (Point)
+import Data.Maybe
 
 import State
 import Direction
 import Grid
 
 -- Create a rectangle given screen information and a point
-makeRect :: Float -> Float -> Float -> Float -> Point -> Picture
-makeRect w h sw sh (x, y) = translate transW transH rect
-  where
-    x' = fromIntegral x
-    y' = fromIntegral y
-    transW = -sw / 2 + (x' + 1) * w
-    transH =  sh / 2 - (y' + 1) * h
-    rect = rectangleSolid w h
+makeRect :: Color -> Point -> IO Picture
+makeRect c (x, y) = do
+  let x' = fromIntegral x
+  let y' = fromIntegral y
+  w <- blockWidth
+  h <- blockHeight
+  sw <- screenWidth
+  sh <- screenHeight
+  let transW = -sw / 2 + (x' + 1) * w
+  let transH =  sh / 2 - (y' + 1) * h
+
+  return $ color c $ translate transW transH $ rectangleSolid w h
 
 -- cons a maybe to a list
-consMaybe :: Maybe a -> [a] -> [a]
-consMaybe (Just x) = (x :)
-consMaybe Nothing  = id
+(?:) :: Maybe a -> [a] -> [a]
+(?:) (Just x) = (x :)
+(?:) Nothing  = id
 
 -- Draw the current state
 drawState :: State -> IO Picture
 drawState state = do
-  w <- blockWidth
-  h <- blockHeight
-  sw <- fromIntegral <$> screenWidth
-  sh <- fromIntegral <$> screenHeight
-  let food = color red . makeRect w h sw sh <$> getFood state
-  let snake = color white . makeRect w h sw sh <$> getSnake state
-  return $ pictures $ consMaybe food snake
-
-recolor :: Color -> Picture -> Picture
-recolor col (Color _ x) = Color col x
+  food  <- mapM (makeRect red)   $ getFood state
+  snake <- mapM (makeRect white) $ getSnake state
+  return $ pictures $ food ?: snake
