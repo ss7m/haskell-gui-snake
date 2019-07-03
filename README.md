@@ -4,7 +4,9 @@ This is the snake game written in haskell with a graphical interface.
 Implemented with gloss.
 
 # Requirements
-`gloss` requires GLUT and OpenGL. I don't remember if stack can install these things for you.
+If on arch linux or something which uses pacman this should do it:
+`pacman -S opengl glu`
+If that doesn't work, don't @ me
 
 # Building
 Should be as simple as running `stack build`.
