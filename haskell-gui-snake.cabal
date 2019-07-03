@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.20.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6535920edee7b3a2d8c6cbf908ed84eb1356351a1f7297dbe5561703e28a746e
+-- hash: 2d812591af9650052293e604d3055ded9628b3cdc3a6b6821fa5bbda036b9316
 
 name:           haskell-gui-snake
 version:        0.1.0.0
@@ -15,11 +17,9 @@ copyright:      2018 Sam Barr
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
-
 extra-source-files:
-    ChangeLog.md
     README.md
+    ChangeLog.md
 
 source-repository head
   type: git
@@ -48,7 +48,7 @@ executable snake
   main-is: Main.hs
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:
       base >=4.7 && <5
     , gloss

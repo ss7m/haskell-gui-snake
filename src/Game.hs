@@ -44,13 +44,15 @@ step _ state = when (invalid state) (exitGame state) >> step' state
     step' = genFood . eatFood . doMove
     invalid = not . valid gridWidth gridHeight . getSnake
 
---exit the game and print out the player's score
+-- exit the game and print out the player's score
 exitGame :: State -> IO ()
 exitGame state = do
-  putStrLn $ "Your score is " ++ show (length (getSnake state))
+  let score = (length $ getSnake state) - 1
+  putStrLn $ "Your score is " ++ show score
   putStrLn "Thanks for playing!"
   exitSuccess
 
 -- The Game!
 game :: IO ()
-game = playIO FullScreen black 13 initState drawState handleInput step
+--game = playIO FullScreen black 13 initState drawState handleInput step
+game = playIO FullScreen black 11 initState drawState handleInput step

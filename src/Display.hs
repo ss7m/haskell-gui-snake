@@ -23,8 +23,7 @@ makeRect c (x, y) = do
 
 -- cons a maybe to a list
 (?:) :: Maybe a -> [a] -> [a]
-(?:) (Just x) = (x :)
-(?:) Nothing  = id
+(?:) = maybe id (:)
 
 -- Draw the current state
 drawState :: State -> IO Picture
