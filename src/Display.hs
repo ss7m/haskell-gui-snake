@@ -8,18 +8,13 @@ import Direction
 import Grid
 
 -- Create a rectangle given screen information and a point
-makeRect :: Color -> Point -> IO Picture
-makeRect c (x, y) = do
+makeRect :: Float -> Float -> Float -> Float -> Color -> Point -> IO Picture
+makeRect bw bh sw sh c (x, y) = do
   let x' = fromIntegral x
   let y' = fromIntegral y
-  w <- blockWidth
-  h <- blockHeight
-  sw <- screenWidth
-  sh <- screenHeight
-  let transW = -sw / 2 + (x' + 1) * w
-  let transH =  sh / 2 - (y' + 1) * h
-
-  return $ color c $ translate transW transH $ rectangleSolid w h
+  let transW = -sw / 2 + (x' + 1) * bw
+  let transH =  sh / 2 - (y' + 1) * bh
+  return $ color c $ translate transW transH $ rectangleSolid bw bh
 
 -- cons a maybe to a list
 (?:) :: Maybe a -> [a] -> [a]
@@ -28,6 +23,10 @@ makeRect c (x, y) = do
 -- Draw the current state
 drawState :: State -> IO Picture
 drawState state = do
-  food  <- mapM (makeRect red)   $ getFood state
-  snake <- mapM (makeRect white) $ getSnake state
+  bw <- blockWidth
+  bh <- blockHeight
+  sw <- screenWidth
+  sh <- screenHeight
+  food  <- mapM (makeRect bw bw sw sh red)   $ getFood state
+  snake <- mapM (makeRect bw bw sw sh white) $ getSnake state
   return $ pictures $ food ?: snake

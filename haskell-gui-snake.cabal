@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2d812591af9650052293e604d3055ded9628b3cdc3a6b6821fa5bbda036b9316
+-- hash: 7c5c87f1d10c547603a4a89a60a9b30d2a2d9c009dfb3bfc943a8e987adae677
 
 name:           haskell-gui-snake
 version:        0.1.0.0
@@ -48,7 +48,7 @@ executable snake
   main-is: Main.hs
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2 -dynamic
   build-depends:
       base >=4.7 && <5
     , gloss
@@ -63,7 +63,7 @@ test-suite haskell-gui-snake-test
   main-is: Spec.hs
   hs-source-dirs:
       test
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2 -dynamic
   build-depends:
       base >=4.7 && <5
     , gloss

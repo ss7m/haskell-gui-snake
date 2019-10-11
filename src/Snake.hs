@@ -27,4 +27,5 @@ valid xMax yMax snake = noOverlap snake && inside xMax yMax (head snake)
 
 -- checks if snake is eating a piece of food
 eating :: Snake -> Point -> Bool
-eating snake food = (head snake) == food
+eating = (==) . head
+--eating snake food = (head snake) == food

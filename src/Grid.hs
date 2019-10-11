@@ -21,8 +21,8 @@ screenHeight = fromIntegral . snd <$> getScreenSize
 
 -- Number of pixels in the block of a grid
 blockWidth :: IO Float
-blockWidth = flip fmap screenWidth (/ (gridWidth + 1))
+blockWidth = (/ (gridWidth+1)) <$> screenWidth
 
 -- Number of pixels in the block of a grid
 blockHeight :: IO Float
-blockHeight = flip fmap screenHeight (/ (gridHeight + 1))
+blockHeight = (/ (gridHeight+1)) <$> screenHeight

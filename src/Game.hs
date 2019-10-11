@@ -20,9 +20,11 @@ genFood st@(State _ _ (Just _) _) = return st
 genFood st@(State s _ Nothing  _) = do
   x <- randomRIO (0, gridWidth - 1)
   y <- randomRIO (0, gridHeight - 1)
-  if (x, y) `elem` s then
+  if (x, y) `elem` s then do
+    putStrLn "trying again"
     genFood st
-  else
+  else do
+    putStrLn "done"
     return $ setFood (Just (x, y)) st
 
 -- move snake accordingly
