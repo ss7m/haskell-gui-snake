@@ -1,7 +1,13 @@
-module Snake (Snake, valid, move, eating, eat) where
+module Snake
+    ( Snake
+    , valid
+    , move
+    , eating
+    , eat
+    ) where
 
-import Direction
 import Data.List
+import Direction
 
 type Snake = [Point]
 
@@ -15,7 +21,7 @@ eat snake dir = push dir (head snake) : snake
 
 -- checks if a point is inside the screen
 inside :: Int -> Int -> Point -> Bool
-inside xMax yMax (x,y) = x >= 0 && y >= 0 && x < xMax && y < yMax
+inside xMax yMax (x, y) = x >= 0 && y >= 0 && x < xMax && y < yMax
 
 -- checks if the head of the snake overlaps with the rest of the snake
 noOverlap :: Snake -> Bool

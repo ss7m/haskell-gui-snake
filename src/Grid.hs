@@ -1,7 +1,7 @@
 module Grid where
 
-import Graphics.Gloss.Interface.Environment
 import Control.Monad
+import Graphics.Gloss.Interface.Environment
 
 -- Width of the game grid
 gridWidth :: Num a => a
@@ -21,8 +21,8 @@ screenHeight = fromIntegral . snd <$> getScreenSize
 
 -- Number of pixels in the block of a grid
 blockWidth :: IO Float
-blockWidth = (/ (gridWidth+1)) <$> screenWidth
+blockWidth = (/ (gridWidth + 1)) <$> screenWidth
 
 -- Number of pixels in the block of a grid
 blockHeight :: IO Float
-blockHeight = (/ (gridHeight+1)) <$> screenHeight
+blockHeight = (/ (gridHeight + 1)) <$> screenHeight

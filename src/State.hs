@@ -1,23 +1,41 @@
-module State (State(..), initState, setSnake, setDirection, setFood, setCounter) where
+module State
+    ( State(..)
+    , initState
+    , setSnake
+    , setDirection
+    , setFood
+    , setCounter
+    , setPaused
+    ) where
 
-import Snake
 import Direction
 import Grid
+import Snake
 
-data State = State {getSnake :: Snake, getDirection :: Direction, getFood :: Maybe Point, getCounter :: Int}
+data State =
+    State
+        { getSnake :: Snake
+        , getDirection :: Direction
+        , getFood :: Maybe Point
+        , getCounter :: Int
+        , getPaused :: Bool
+        }
 
 -- Initial State for the game
 initState :: State
-initState = State [(0, 0)] DOWN Nothing 0
+initState = State [(0, 0)] DOWN Nothing 0 False
 
 setSnake :: Snake -> State -> State
-setSnake snake (State _ dir food counter) = State snake dir food counter
+setSnake snake state = state {getSnake = snake}
 
 setDirection :: Direction -> State -> State
-setDirection dir (State snake _ food counter) = State snake dir food counter
+setDirection dir state = state {getDirection = dir}
 
 setFood :: Maybe Point -> State -> State
-setFood food (State snake dir _ counter) = State snake dir food counter
+setFood food state = state {getFood = food}
 
 setCounter :: Int -> State -> State
-setCounter counter (State snake dir food _) = State snake dir food counter
+setCounter counter state = state {getCounter = counter}
+
+setPaused :: Bool -> State -> State
+setPaused paused state = state {getPaused = paused}
